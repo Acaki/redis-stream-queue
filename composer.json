@@ -1,0 +1,20 @@
+{
+  "name": "awoo/redis-stream-queue",
+  "description": "Reliable queue implemented using redis stream",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "mesnigan",
+      "email": "mesniganchen@awoo.com.tw"
+    }
+  ],
+  "require": {
+    "ext-redis": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "RedisStreamQueue\\": "src/"
+    }
+  }
+}
