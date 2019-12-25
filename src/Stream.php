@@ -2,9 +2,7 @@
 
 namespace RedisStreamQueue;
 
-use RedisStreamQueue\RedisConn;
-
-class RedisStream
+class Stream
 {
     protected $key;
 
@@ -21,7 +19,7 @@ class RedisStream
      */
     public function push(array $message, string $id = '*')
     {
-        return RedisConn::get()->xAdd($this->key, $id, $message);
+        return Conn::get()->xAdd($this->key, $id, $message);
     }
 
     /**
@@ -32,10 +30,10 @@ class RedisStream
     protected static function createGroupIfNotExists(string $key, string $groupName)
     {
         /** @noinspection PhpParamsInspection */
-        $groups = RedisConn::get()->xInfo('GROUPS', $key);
+        $groups = Conn::get()->xInfo('GROUPS', $key);
         $exists = $groups ? (array_search($groupName, array_column($groups, 'name')) !== false) : false;
         if ($exists === false) {
-            RedisConn::get()->xGroup('CREATE', $key, $groupName, 0);
+            Conn::get()->xGroup('CREATE', $key, $groupName, 0);
         }
     }
 
@@ -46,6 +44,6 @@ class RedisStream
      */
     public function deleteJobs(array $ids)
     {
-        return RedisConn::get()->xDel($this->key, $ids);
+        return Conn::get()->xDel($this->key, $ids);
     }
 }
