@@ -19,12 +19,12 @@ class Conn
     public static function get()
     {
         if (is_null(self::$host) || is_null(self::$password)) {
-            echo 'Please provide connection info by calling setConnInfo() first.' . PHP_EOL;
+            echo 'Please provide connection info by calling Conn::setConnInfo() first.' . PHP_EOL;
         }
         if (is_null(self::$redis)) {
             self::$redis = new \Redis();
-            self::$redis->pconnect(getenv('REDIS_HOST'), 6379);
-            self::$redis->auth(getenv('REDIS_PASS'));
+            self::$redis->pconnect(self::$host, self::$port);
+            self::$redis->auth(self::$password);
         }
         return self::$redis;
     }
