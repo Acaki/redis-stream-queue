@@ -38,7 +38,7 @@ class Group extends Stream
             $block
         );
 
-        return $newItem[$this->key];
+        return $newItem[$this->key] ?? [];
     }
 
     /**
