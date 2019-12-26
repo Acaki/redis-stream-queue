@@ -2,7 +2,7 @@
 
 namespace RedisStreamQueue;
 
-class Conn
+class Redis
 {
     private static $redis = null;
     private static $host = null;
@@ -19,7 +19,7 @@ class Conn
     public static function get()
     {
         if (is_null(self::$host) || is_null(self::$password)) {
-            echo 'Please provide connection info by calling Conn::setConnInfo() first.' . PHP_EOL;
+            echo 'Please provide connection info by calling setConnInfo() first.' . PHP_EOL;
         }
         if (is_null(self::$redis)) {
             self::$redis = new \Redis();

@@ -30,7 +30,7 @@ class Group extends Stream
      */
     public function pop(int $count = 1, string $id = '>', $block = null)
     {
-        $newItem = Conn::get()->xReadGroup(
+        $newItem = Redis::get()->xReadGroup(
             $this->group,
             $this->consumerId,
             [$this->key => $id],
@@ -52,7 +52,7 @@ class Group extends Stream
     public function claim(int $minIdleTime, int $count = 1, int $maxDelivery = 10, int $limit = 100)
     {
         $claimedItems = [];
-        $pendingItems = Conn::get()->xPending(
+        $pendingItems = Redis::get()->xPending(
             $this->key,
             $this->group,
             '-',
@@ -65,7 +65,7 @@ class Group extends Stream
                 if ($idleTime < $minIdleTime || $deliveryCnt >= $maxDelivery) {
                     continue;
                 }
-                $claimedItem = Conn::get()->xClaim(
+                $claimedItem = Redis::get()->xClaim(
                     $this->key,
                     $this->group,
                     $this->consumerId,
@@ -96,7 +96,7 @@ class Group extends Stream
     public function moveFailed($newKey = null, int $maxDelivery = 10, int $limit = 100)
     {
         $failedIds = [];
-        $pendingItems = Conn::get()->xPending(
+        $pendingItems = Redis::get()->xPending(
             $this->key,
             $this->group,
             '-',
@@ -111,9 +111,9 @@ class Group extends Stream
                 }
                 $failedIds[] = $messageId;
                 if (!is_null($newKey)) {
-                    $message = Conn::get()->xRange($this->key, $messageId, $messageId);
+                    $message = Redis::get()->xRange($this->key, $messageId, $messageId);
                     $job = reset($message);
-                    Conn::get()->xAdd($newKey, $messageId, $job);
+                    Redis::get()->xAdd($newKey, $messageId, $job);
                 }
             }
             $this->ack($failedIds);
@@ -132,11 +132,11 @@ class Group extends Stream
     public function cleanConsumers(int $idleTime)
     {
         $deletedConsumers = 0;
-        $consumers = Conn::get()->xInfo('CONSUMERS', $this->key, $this->group);
+        $consumers = Redis::get()->xInfo('CONSUMERS', $this->key, $this->group);
         if ($consumers) {
             foreach ($consumers as $consumer) {
                 if (!$consumer['pending'] && $consumer['idle'] >= $idleTime) {
-                    Conn::get()->xGroup(
+                    Redis::get()->xGroup(
                         'DELCONSUMER',
                         $this->key,
                         $this->group,
@@ -157,6 +157,6 @@ class Group extends Stream
      */
     public function ack(array $messageIds)
     {
-        return Conn::get()->xAck($this->key, $this->group, $messageIds);
+        return Redis::get()->xAck($this->key, $this->group, $messageIds);
     }
 }
