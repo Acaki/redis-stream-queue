@@ -20,8 +20,7 @@ class Redis
     {
         if (is_null(self::$host) || is_null(self::$password)) {
             echo 'Please provide connection info by calling setConnInfo() first.' . PHP_EOL;
-        }
-        if (is_null(self::$redis)) {
+        } elseif (is_null(self::$redis)) {
             self::$redis = new \Redis();
             self::$redis->pconnect(self::$host, self::$port);
             self::$redis->auth(self::$password);
