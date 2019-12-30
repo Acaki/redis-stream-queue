@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "ext-redis": "^4.2.0"
+    "ext-redis": ">=4.2.0"
   },
   "autoload": {
     "psr-4": {
