@@ -22,6 +22,10 @@ class Redis
             echo 'Please provide connection info by calling setConnInfo() first.' . PHP_EOL;
         } elseif (is_null(self::$redis)) {
             self::$redis = new \Redis();
+        }
+        try {
+            self::$redis->ping();
+        } catch (\RedisException $e) {
             self::$redis->pconnect(self::$host, self::$port);
             self::$redis->auth(self::$password);
         }
