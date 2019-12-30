@@ -1,5 +1,5 @@
 {
-  "name": "Acaki/redis-stream-queue",
+  "name": "acaki/redis-stream-queue",
   "description": "Reliable queue implemented using redis stream",
   "minimum-stability": "dev",
   "license": "proprietary",
