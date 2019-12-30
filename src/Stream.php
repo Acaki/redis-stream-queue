@@ -12,7 +12,7 @@ class Stream extends Redis
     }
 
     /**
-     * 將指定的訊息新增進stream內, message id預設由redis自動產生
+     * Add the given messages into stream, message id default to auto generated
      * @param array $message
      * @param string $id 若要指定id可自行傳入
      * @return string
@@ -23,7 +23,7 @@ class Stream extends Redis
     }
 
     /**
-     * 在指定的stream key和名稱下建立consumer group
+     * Create consumer group under given stream key and group name
      * @param $key string redis stream key
      * @param $groupName string name of the group to be created
      */
@@ -38,6 +38,7 @@ class Stream extends Redis
     }
 
     /**
+     * Delete messages from stream using given message ids
      * 將指定的訊息群從stream中刪除
      * @param array $ids
      * @return int
