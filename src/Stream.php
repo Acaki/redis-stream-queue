@@ -14,7 +14,7 @@ class Stream extends Redis
     /**
      * Add the given messages into stream, message id default to auto generated
      * @param array $message
-     * @param string $id 若要指定id可自行傳入
+     * @param string $id message id
      * @return string
      */
     public function push(array $message, string $id = '*')
@@ -39,7 +39,6 @@ class Stream extends Redis
 
     /**
      * Delete messages from stream using given message ids
-     * 將指定的訊息群從stream中刪除
      * @param array $ids
      * @return int
      */
