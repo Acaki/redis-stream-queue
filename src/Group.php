@@ -113,7 +113,9 @@ class Group extends Stream
                 if (!is_null($newKey)) {
                     $message = Redis::get()->xRange($this->key, $messageId, $messageId);
                     $job = reset($message);
-                    Redis::get()->xAdd($newKey, $messageId, $job);
+                    if ($job) {
+                        Redis::get()->xAdd($newKey, $messageId, $job);
+                    }
                 }
             }
             $this->ack($failedIds);
