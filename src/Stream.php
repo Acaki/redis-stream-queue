@@ -12,6 +12,16 @@ class Stream extends Redis
     }
 
     /**
+     * Create a stream with given key.
+     * @param string $key the stream key to be created, must not exists before.
+     */
+    public static function create($key)
+    {
+        $messageId = Redis::get()->xAdd($key, '*', ['hello' => 'world']);
+        Redis::get()->xDel($key, [$messageId]);
+    }
+
+    /**
      * Add the given messages into stream, message id default to auto generated
      * @param array $message
      * @param string $id message id
