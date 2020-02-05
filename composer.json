@@ -12,6 +12,9 @@
   "require": {
     "ext-redis": ">=4.2.0"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8.35 || ^5.0 || ^6.0 || ^7.0"
+  },
   "autoload": {
     "psr-4": {
       "RedisStreamQueue\\": "src/"
