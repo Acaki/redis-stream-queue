@@ -38,14 +38,14 @@ class QueueStatsTest extends TestCase
 
     public function testGetPendingJobs()
     {
-        $pendingJobs = QueueStats::getPendingJobs(getenv('REDIS_KEY'), getenv('REDIS_GROUP'), 1000);
+        $pendingJobs = QueueStats::getRunningJobs(getenv('REDIS_KEY'), getenv('REDIS_GROUP'), 1000);
         $this->assertIsArray($pendingJobs);
         $this->assertLessThanOrEqual(1000, count($pendingJobs));
     }
 
     public function testGetPendingCount()
     {
-        $count = QueueStats::getPendingCount(getenv('REDIS_KEY'), getenv('REDIS_GROUP'));
+        $count = QueueStats::getRunningCount(getenv('REDIS_KEY'), getenv('REDIS_GROUP'));
         $this->assertIsInt($count);
     }
 }
