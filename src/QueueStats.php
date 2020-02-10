@@ -7,11 +7,11 @@ class QueueStats
     /**
      * Get jobs in the queue
      * @param string $key
-     * @param int $limit
+     * @param null|int $limit
      * @param string $start
      * @return array
      */
-    public static function getJobs(string $key, int $limit, $start = '0-0')
+    public static function getJobs(string $key, $limit = null, $start = '0-0')
     {
         $jobs = Redis::get()->xRead([$key => $start], $limit);
         return $jobs[$key];
