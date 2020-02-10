@@ -49,7 +49,7 @@ class QueueStats
      * @param string $end maximum job id to be get
      * @return array each array element has the format [job id, consumer id, idle time, retry count]
      */
-    public static function getPendingJobs(string $key, string $group, int $limit, $start = '-', $end = '+')
+    public static function getRunningJobs(string $key, string $group, int $limit, $start = '-', $end = '+')
     {
         return Redis::get()->xPending(
             $key,
@@ -66,7 +66,7 @@ class QueueStats
      * @param string $group
      * @return array
      */
-    public static function getPendingCount(string $key, string $group)
+    public static function getRunningCount(string $key, string $group)
     {
         $pendingJobs = Redis::get()->xPending($key, $group);
         return $pendingJobs[0];
