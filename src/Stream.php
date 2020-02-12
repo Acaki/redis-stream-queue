@@ -56,4 +56,13 @@ class Stream extends Redis
     {
         return Redis::get()->xDel($this->key, $ids);
     }
+
+    /**
+     * Clear job queue
+     * @return int
+     */
+    public function clear()
+    {
+        return Redis::get()->xTrim($this->key, 0);
+    }
 }
