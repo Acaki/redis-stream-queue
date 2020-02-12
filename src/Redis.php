@@ -24,7 +24,7 @@ class Redis
             self::$redis = new \Redis();
         }
         try {
-            self::$redis->ping();
+            self::$redis->ping('');
         } catch (\RedisException $e) {
             self::$redis->pconnect(self::$host, self::$port);
             self::$redis->auth(self::$password);

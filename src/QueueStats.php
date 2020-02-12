@@ -14,7 +14,7 @@ class QueueStats
     public static function getJobs(string $key, $limit = null, $start = '0-0')
     {
         $jobs = Redis::get()->xRead([$key => $start], $limit);
-        return $jobs[$key];
+        return isset($jobs[$key]) ? $jobs[$key] : [];
     }
 
     /**
@@ -25,19 +25,19 @@ class QueueStats
     public static function getJobCount(string $key)
     {
         $jobs = Redis::get()->xInfo('STREAM', $key);
-        return $jobs['length'];
+        return $jobs ? $jobs['length'] : 0;
     }
 
     public static function getFirstJob(string $key)
     {
         $jobs = Redis::get()->xInfo('STREAM', $key);
-        return $jobs['first-entry'];
+        return $jobs ? $jobs['first-entry'] : [];
     }
 
     public static function getLastJob(string $key)
     {
         $jobs = Redis::get()->xInfo('STREAM', $key);
-        return $jobs['last-entry'];
+        return $jobs ? $jobs['last-entry'] : [];
     }
 
     /**
@@ -51,24 +51,25 @@ class QueueStats
      */
     public static function getRunningJobs(string $key, string $group, int $limit, $start = '-', $end = '+')
     {
-        return Redis::get()->xPending(
+        $jobs = Redis::get()->xPending(
             $key,
             $group,
             $start,
             $end,
             $limit
         );
+        return is_array($jobs) ? $jobs : [];
     }
 
     /**
      * Get number of pending jobs in queue
      * @param string $key
      * @param string $group
-     * @return array
+     * @return int
      */
     public static function getRunningCount(string $key, string $group)
     {
         $pendingJobs = Redis::get()->xPending($key, $group);
-        return $pendingJobs[0];
+        return $pendingJobs ? $pendingJobs[1] : 0;
     }
 }
