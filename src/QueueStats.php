@@ -70,6 +70,6 @@ class QueueStats
     public static function getRunningCount(string $key, string $group)
     {
         $pendingJobs = Redis::get()->xPending($key, $group);
-        return $pendingJobs ? $pendingJobs[1] : 0;
+        return $pendingJobs ? $pendingJobs[0] : 0;
     }
 }
