@@ -24,18 +24,21 @@ class QueueStats
      */
     public static function getJobCount(string $key)
     {
+        /** @noinspection PhpParamsInspection */
         $jobs = Redis::get()->xInfo('STREAM', $key);
         return $jobs ? $jobs['length'] : 0;
     }
 
     public static function getFirstJob(string $key)
     {
+        /** @noinspection PhpParamsInspection */
         $jobs = Redis::get()->xInfo('STREAM', $key);
         return $jobs ? $jobs['first-entry'] : [];
     }
 
     public static function getLastJob(string $key)
     {
+        /** @noinspection PhpParamsInspection */
         $jobs = Redis::get()->xInfo('STREAM', $key);
         return $jobs ? $jobs['last-entry'] : [];
     }

@@ -21,6 +21,16 @@ class Group extends Stream
         $this->consumerId = $consumerId;
     }
 
+    public function setGroup($group)
+    {
+        $this->group = $group;
+    }
+
+    public function setConsumerId($consumerId)
+    {
+        $this->consumerId = $consumerId;
+    }
+
     /**
      * Read given number of messages from stream, default read with id '>'
      * @param int $count how many messages to read

@@ -11,6 +11,11 @@ class Stream extends Redis
         $this->key = $key;
     }
 
+    public function setKey($key)
+    {
+        $this->key = $key;
+    }
+
     /**
      * Create a stream with given key.
      * @param string $key the stream key to be created, must not exists before.
@@ -63,6 +68,7 @@ class Stream extends Redis
      */
     public function clear()
     {
+        /** @noinspection PhpParamsInspection */
         return Redis::get()->xTrim($this->key, 0);
     }
 }
